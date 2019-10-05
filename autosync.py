@@ -48,14 +48,14 @@ def subsync(path):
                                     if reference == "":
                                         command = "subsync \"%s\" -i \"%s\" > \"%s\" " %(videosource, subsource, subdest)
                                         print(command)
-                                        #os.system(command)
+                                        os.system(command)
                                         database.write(subtitle+ "\n")
                                         reference = subsource
                                         time.sleep(1)
                                     else:
                                         command = "subsync \"%s\" -i \"%s\" > \"%s\" " %(reference, subsource, subdest)
                                         print(command)
-                                        #os.system(command)
+                                        os.system(command)
                                         database.write(subtitle + "\n")
                                         time.sleep(1)
     database.close()
