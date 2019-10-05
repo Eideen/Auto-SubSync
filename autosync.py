@@ -81,8 +81,10 @@ def menu():
             print("No valid option")
 
 def subtitlessync():
-    
-    path = mediapath
+    path = input("Insert Movies Folder:")
+    if path == "":
+        path = mediapath
+
     folders = get_files_list(path)["folders"]
     #print(files["folders"][0])
 
@@ -98,11 +100,14 @@ def copysubstofolder():
         path = input("Insert Movies Folder:")
         if path == "":
             path = mediapath
+        if path[-1] is not "/":
+            path = path + "/"
         
         pathsubs = input("Insert Subtitles Folder:")
-        
         if pathsubs == "":
             pathsubs = subpath
+        if pathsubs[-1] is not "/":
+            pathsubs = pathsubs + "/"
         try:
             folders = get_files_list(path, [".mkv",".avi",".mp4"])["folders"]
             subs = get_files_list(pathsubs, [".srt"])["files"]
@@ -110,7 +115,7 @@ def copysubstofolder():
         except:
             print("Something wrong. Are the folders correct?")
 
-    proced = input("Continue?")
+    proced = input("Continue?(y/n)")
     if proced == "y":
         print("Processing")
         for s in subs:
