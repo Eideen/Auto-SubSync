@@ -51,13 +51,13 @@ def subsync(path):
                                         #os.system(command)
                                         database.write(subtitle)
                                         reference = subsource
-                                        time.sleep(10)
+                                        time.sleep(1)
                                     else:
                                         command = "subsync \"%s\" -i \"%s\" > \"%s\" " %(reference, subsource, subdest)
                                         print(command)
                                         #os.system(command)
                                         database.write(subtitle)
-                                        time.sleep(10)
+                                        time.sleep(1)
     database.close()
 
 def menu():
