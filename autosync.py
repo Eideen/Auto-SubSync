@@ -125,7 +125,7 @@ def copysubstofolder():
                 #else:
                     #print("Not")
 
-            print(more_similar + " é mais igual a    " + s)
+            print(more_similar + " is similar to " + s)
 
             commands = "mv \"%s%s\" \"%s%s/\"" %(pathsubs, s, path, more_similar)
             print(commands)
