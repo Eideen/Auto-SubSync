@@ -49,7 +49,7 @@ def subsync(path):
                                         command = "subsync \"%s\" -i \"%s\" > \"%s\" " %(videosource, subsource, subdest)
                                         print(command)
                                         #os.system(command)
-                                        database.write(subtitle+ "\n"
+                                        database.write(subtitle+ "\n")
                                         reference = subsource
                                         time.sleep(1)
                                     else:
