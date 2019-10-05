@@ -88,9 +88,9 @@ def subtitlessync():
 
     for k in folders:
         if k[-1] == "/":
-            subsync(k)
+            subsync(path + k)
         else:
-            subsync(k+"/")
+            subsync(path + k+"/")
 
 def copysubstofolder():
     #path = input("Insert path:")
