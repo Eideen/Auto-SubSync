@@ -67,6 +67,7 @@ def menu():
         option = input()
         if option == "1":
             print("Sync Full Movies Folder")
+            subtitlessync()
         elif option == "2":
             print("Copy Subs to Movie Folder")
             copysubstofolder()
@@ -80,6 +81,7 @@ def menu():
             print("No valid option")
 
 def subtitlessync():
+    
     path = mediapath
     folders = get_files_list(path)["folders"]
     #print(files["folders"][0])
