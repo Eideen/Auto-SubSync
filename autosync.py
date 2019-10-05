@@ -6,6 +6,9 @@ from difflib import SequenceMatcher
 mediapath = "/media/Movies/"
 subpath = "./subtitles/"
 
+videoextensions = [".mp4",".mkv",".avi"]
+subtitlesextensions = [".srt"]
+
 def get_files_list(path, extension=[]):
     #Get everything in the directory provided
     content = os.listdir(path)
@@ -24,10 +27,43 @@ def get_files_list(path, extension=[]):
             list["folders"].append(c)
     return list
 
+def subsync(path):
+    database = open("subtitles.txt", "a+")
+    files = os.listdir(path)
+    for video in files:
+        for ve in videoextensions:
+            if os.path.isfile(path + str(video)) and ve in video:
+                print(video)
+                reference = ""
+                for subtitle in files:
+                    for se in subtitlesextensions:
+                        if se in subtitle:
+                            videosource = path + video
+                            subsource = path + subtitle
+                            subdest = subpath + subtitle
+                            with open("subtitles.txt") as j:
+                                if subtitle in j.read():
+                                    print(subtitle + " is already sync. Skipping")
+                                else:
+                                    if reference == "":
+                                        command = "subsync \"%s\" -i \"%s\" > \"%s\" " %(videosource, subsource, subdest)
+                                        print(command)
+                                        #os.system(command)
+                                        database.write(subtitle)
+                                        reference = subsource
+                                        time.sleep(10)
+                                    else:
+                                        command = "subsync \"%s\" -i \"%s\" > \"%s\" " %(reference, subsource, subdest)
+                                        print(command)
+                                        #os.system(command)
+                                        database.write(subtitle)
+                                        time.sleep(10)
+    database.close()
+
 def menu():
     print("AutoSync batch script.")
     while True:
-        print("Select option:\n (1)Sync a Movies folder\n (2)Copy subtitles from temporary to definitive folder\n (3)Sync a Single Movie (q) Quit")
+        print("Select option:\n (1)Sync a Movies folder\n (2)Copy subtitles from temporary to definitive folder\n (3)Sync a Single Movie\n (q) Quit")
         option = input()
         if option == "1":
             print("Sync Full Movies Folder")
@@ -43,47 +79,16 @@ def menu():
         else:
             print("No valid option")
 
-
-
-
 def subtitlessync():
     path = mediapath
-    files = get_files_list(path)
+    folders = get_files_list(path)["folders"]
     #print(files["folders"][0])
 
-    database = open("subtitles.txt", "a+")
-
-
-    for k in files["folders"]:
-        newpath = mediapath + k
-        ff = os.listdir(newpath)
-        #print(ff)
-        for f in ff:
-            if os.path.isfile(newpath + "/" + str(f)) and ("mkv" in f or "mp4" in f):
-                print(f)
-                reference = ""
-                for i in ff:
-                    if "srt" in i:
-                        videosource = newpath + "/" + str(f)
-                        subsource = newpath + "/" + str(i)
-                        subdest = subpath + str(i)
-                        with open("subtitles.txt") as j:
-                            if i in j.read():
-                                print(i + " is already sync. Skipping")
-                            else:
-                                if reference == "":
-                                    command = "subsync \"%s\" -i \"%s\" > \"%s\" " %(videosource, subsource, subdest)
-                                    print(command)
-                                    os.system(command)
-                                    database.write(i)
-                                    reference = subsource
-                                    time.sleep(10)
-                                else:
-                                    command = "subsync \"%s\" -i \"%s\" > \"%s\" " %(reference, subsource, subdest)
-                                    print(command)
-                                    os.system(command)
-                                    database.write(i)
-                                    time.sleep(10)
+    for k in folders:
+        if k[-1] == "/":
+            subsync(k)
+        else:
+            subsync(k+"/")
 
 def copysubstofolder():
     #path = input("Insert path:")
